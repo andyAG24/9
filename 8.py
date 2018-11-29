@@ -1,4 +1,3 @@
-
 import os
 import glob
 import subprocess 
@@ -6,23 +5,19 @@ import subprocess
 migrations = 'Migrations'
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# __name__ = input('Введите строку: ')
-
-
 os.chdir(migrations)
 current_directory = os.getcwd()
 
-def search_line_in_all_files(line_entered):
+def search_line_in_all_files(line_entered, file_list):
+    file_list_1 = list(file_list)
     line_for_check = ''.join(line_entered.split())
-    res_list = list()
     count = 0
-    file_list = list()
-    for filename in glob.glob('*.sql'):
-        file_list.append(filename)
-    print(len(file_list))
+    res_list = list()
+    # print(type(file_list_1))
     i = 0
-    while i < len(file_list) - 1:
-        with open(file_list[i]) as f:
+    print(len(file_list_1))
+    while i < len(file_list_1) - 1:
+        with open(file_list_1[i]) as f:
             for line in f:
                 line_1 = ''.join(f.read().split())
                 if line_for_check in line_1:
@@ -31,7 +26,19 @@ def search_line_in_all_files(line_entered):
         i += 1
     print(res_list)
     print('Кол-во файлов: {}'.format(count))
+    return res_list
 
-while True:
-    command = str(input('Введите значение для поиска: '))
-    search_line_in_all_files(command)
+if __name__ == "__main__":
+       
+    migrations_list = list()
+    for filename in glob.glob('*.sql'):
+        migrations_list.append(filename)
+
+    while True:
+        result_list = search_line_in_all_files(input('Введите строку для поиска: '), migrations_list)
+        # print(type(result_list))
+        migrations_list = list(result_list)
+        
+        if not(len(migrations_list)):
+            break
+
