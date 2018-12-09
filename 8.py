@@ -13,19 +13,13 @@ def search_line_in_all_files(line_entered, file_list):
     line_for_check = ''.join(line_entered.split())
     count = 0
     res_list = list()
-    # print(type(file_list_1))
-    i = 0
-    print(len(file_list_1))
-    while i < len(file_list_1) - 1:
-        with open(file_list_1[i]) as f:
-            for line in f:
-                line_1 = ''.join(f.read().split())
-                if line_for_check in line_1:
-                    res_list.append(filename)
-                    count += 1
-        i += 1
+    for file in file_list:
+        with open(file) as f:
+            data = f.read()
+            if line_entered in data:
+                res_list.append(file)
     print(res_list)
-    print('Кол-во файлов: {}'.format(count))
+    print('Кол-во файлов: {}'.format(len(res_list)))
     return res_list
 
 if __name__ == "__main__":
